@@ -1,0 +1,394 @@
+var1,var2,group,type,spatial
+id_patch,I(id_patch^2),landscape,landscape,meta
+id_window,I(id_window^2),landscape,landscape,meta
+window,I(window^2),landscape,landscape,meta
+id_region,I(id_region^2),landscape,landscape,meta
+l_mean,I(l_mean^2),ticks,ticks,larvae
+lg_l_mean,I(lg_l_mean^2),ticks,ticks,larvae
+l_pa,I(l_pa^2),ticks,ticks,larvae
+n_sum,I(n_sum^2),ticks,ticks,nymphs
+n_mean,I(n_mean^2),ticks,ticks,nymphs
+lg_n_mean,I(lg_n_mean^2),ticks,ticks,nymphs
+n_pa,I(n_pa^2),ticks,ticks,nymphs
+n_lab_sum,I(n_lab_sum^2),ticks,ticks,nymphs
+n_lab_mean,I(n_lab_mean^2),ticks,ticks,nymphs
+n_ip_gm,I(n_ip_gm^2),ticks,ticks,nymphs
+n_ia_gm,I(n_ia_gm^2),ticks,ticks,nymphs
+lg_n_ia_gm,I(lg_n_ia_gm^2),ticks,ticks,nymphs
+n_inf_pa,I(n_inf_pa^2),ticks,ticks,nymphs
+f_sum,I(f_sum^2),ticks,ticks,female
+f_mean,I(f_mean^2),ticks,ticks,female
+lg_f_mean,I(lg_f_mean^2),ticks,ticks,female
+f_pa,I(f_pa^2),ticks,ticks,female
+f_lab_sum,I(f_lab_sum^2),ticks,ticks,female
+f_lab_mean,I(f_lab_mean^2),ticks,ticks,female
+f_ip_gm,I(f_ip_gm^2),ticks,ticks,female
+f_ia_gm,I(f_ia_gm^2),ticks,ticks,female
+lg_f_ia_gm,I(lg_f_ia_gm^2),ticks,ticks,female
+f_inf_pa,I(f_inf_pa^2),ticks,ticks,female
+m_sum,I(m_sum^2),ticks,ticks,male
+m_mean,I(m_mean^2),ticks,ticks,male
+lg_m_mean,I(lg_m_mean^2),ticks,ticks,male
+m_pa,I(m_pa^2),ticks,ticks,male
+m_lab_sum,I(m_lab_sum^2),ticks,ticks,male
+m_lab_mean,I(m_lab_mean^2),ticks,ticks,male
+m_ip_gm,I(m_ip_gm^2),ticks,ticks,male
+m_ia_gm,I(m_ia_gm^2),ticks,ticks,male
+lg_m_ia_gm,I(lg_m_ia_gm^2),ticks,ticks,male
+m_inf_pa,I(m_inf_pa^2),ticks,ticks,male
+a_sum,I(a_sum^2),ticks,ticks,adults
+a_mean,I(a_mean^2),ticks,ticks,adults
+lg_a_mean,I(lg_a_mean^2),ticks,ticks,adults
+a_pa,I(a_pa^2),ticks,ticks,adults
+a_lab_sum,I(a_lab_sum^2),ticks,ticks,adults
+a_lab_mean,I(a_lab_mean^2),ticks,ticks,adults
+a_ip_gm,I(a_ip_gm^2),ticks,ticks,adults
+a_ia_gm,I(a_ia_gm^2),ticks,ticks,adults
+lg_a_ia_gm,I(lg_a_ia_gm^2),ticks,ticks,adults
+a_inf_pa,I(a_inf_pa^2),ticks,ticks,adults
+doy,I(doy^2),ticks,ticks,meta
+lt_n_ip_gm,I(lt_n_ip_gm^2),ticks,ticks,nymphs
+lt_f_ip_gm,I(lt_f_ip_gm^2),ticks,ticks,felame
+lt_m_ip_gm,I(lt_m_ip_gm^2),ticks,ticks,male
+lt_a_ip_gm,I(lt_a_ip_gm^2),ticks,ticks,adults
+n_points,I(n_points^2),landscape,landscape,meta
+X_long2,I(X_long2^2),landscape,landscape,meta
+Y_lat,I(Y_lat^2),landscape,landscape,meta
+Y_lat2,I(Y_lat2^2),landscape,landscape,meta
+lg.surface,I(lg.surface^2),landscape,landscape,patch
+surface2,I(surface2^2),landscape,landscape,patch
+surface3,I(surface3^2),landscape,landscape,patch
+lg.perimeter,I(lg.perimeter^2),landscape,landscape,patch
+perim_surf,I(perim_surf^2),landscape,landscape,patch
+lg.IndexAge_orig,I(lg.IndexAge_orig^2),landscape,landscape,patch
+lg.IndexAge_buff,I(lg.IndexAge_buff^2),landscape,landscape,patch
+age2,I(age2^2),landscape,landscape,patch
+age3,I(age3^2),landscape,landscape,patch
+age4,I(age4^2),landscape,landscape,patch
+height_stand_mean,I(height_stand_mean^2),structural properties,macrohabitat,tree
+height_stand_max,I(height_stand_max^2),structural properties,macrohabitat,tree
+treelayers_min,I(treelayers_min^2),structural properties,macrohabitat,tree
+treelayers_max,I(treelayers_max^2),structural properties,macrohabitat,tree
+md_total_mean,I(md_total_mean^2),structural properties,macrohabitat,tree
+md_large_mean,I(md_large_mean^2),structural properties,macrohabitat,tree
+dens_total_lg_mean,I(dens_total_lg_mean^2),structural properties,macrohabitat,tree
+dens_large_lg_mean,I(dens_large_lg_mean^2),structural properties,macrohabitat,tree
+slenderness_total_mean,I(slenderness_total_mean^2),structural properties,macrohabitat,tree
+slenderness_small_mean,I(slenderness_small_mean^2),structural properties,macrohabitat,tree
+slenderness_large_mean,I(slenderness_large_mean^2),structural properties,macrohabitat,tree
+ba_bitterlich_mean,I(ba_bitterlich_mean^2),structural properties,macrohabitat,tree
+ba_total_lg_mean,I(ba_total_lg_mean^2),structural properties,macrohabitat,tree
+ba_total_lg_min,I(ba_total_lg_min^2),structural properties,macrohabitat,tree
+ba_total_lg_max,I(ba_total_lg_max^2),structural properties,macrohabitat,tree
+ba_large_lg_mean,I(ba_large_lg_mean^2),structural properties,macrohabitat,tree
+ba_small_lg_mean,I(ba_small_lg_mean^2),structural properties,macrohabitat,tree
+ba_decid_lg_mean,I(ba_decid_lg_mean^2),structural properties,macrohabitat,tree
+bn_ba_evergr_bn_mean,I(bn_ba_evergr_bn_mean^2),structural properties,macrohabitat,tree
+bn_ba_dead_bn_mean,I(bn_ba_dead_bn_mean^2),structural properties,macrohabitat,tree
+ba_laying_total_lg_mean,I(ba_laying_total_lg_mean^2),structural properties,microhabitat,ground
+ba_laying_total_lg_max,I(ba_laying_total_lg_max^2),structural properties,microhabitat,ground
+ba_laying_large_bn_mean,I(ba_laying_large_bn_mean^2),structural properties,microhabitat,ground
+species_mingling_mean,I(species_mingling_mean^2),structural properties,macrohabitat,tree
+diam_diff_mean,I(diam_diff_mean^2),structural properties,macrohabitat,tree
+lg_diam_cv_mean,I(lg_diam_cv_mean^2),structural properties,macrohabitat,tree
+lg_diam_iqr,I(lg_diam_iqr^2),structural properties,macrohabitat,tree
+diam_med,I(diam_med^2),structural properties,macrohabitat,tree
+lg_diam_biggest,I(lg_diam_biggest^2),structural properties,macrohabitat,tree
+dw_diam_mean_mean,I(dw_diam_mean_mean^2),structural properties,macrohabitat,tree
+vol_total_lg_mean,I(vol_total_lg_mean^2),structural properties,macrohabitat,tree
+vol_total_lg_min,I(vol_total_lg_min^2),structural properties,macrohabitat,tree
+vol_total_lg_max,I(vol_total_lg_max^2),structural properties,macrohabitat,tree
+biomass_total_lg_mean,I(biomass_total_lg_mean^2),structural properties,macrohabitat,tree
+diss_tree1_tree2,I(diss_tree1_tree2^2),structural properties,macrohabitat,tree
+diss_tree1_spl,I(diss_tree1_spl^2),structural properties,macrohabitat,tree
+diss_tree2_spl,I(diss_tree2_spl^2),structural properties,macrohabitat,tree
+herb_canopy_height,I(herb_canopy_height^2),structural properties,microhabitat,herb
+herb_canopy_height_cv,I(herb_canopy_height_cv^2),structural properties,microhabitat,herb
+tree_canopy_height,I(tree_canopy_height^2),structural properties,macrohabitat,tree
+lg_tree_canopy_height_cv,I(lg_tree_canopy_height_cv^2),structural properties,macrohabitat,tree
+herb_total_abund,I(herb_total_abund^2),structural properties,microhabitat,herb
+herb_average_abund,I(herb_average_abund^2),structural properties,microhabitat,herb
+herb_small_disp_abund,I(herb_small_disp_abund^2),functional properties,microhabitat,herb
+herb_medium_disp_abund,I(herb_medium_disp_abund^2),functional properties,microhabitat,herb
+herb_medium_large_disp_abund,I(herb_medium_large_disp_abund^2),functional properties,microhabitat,herb
+herb_large_disp_abund,I(herb_large_disp_abund^2),functional properties,microhabitat,herb
+herb_w_nuts_abund,I(herb_w_nuts_abund^2),functional properties,microhabitat,herb
+herb_w_nuts_e_abund,I(herb_w_nuts_e_abund^2),functional properties,microhabitat,herb
+herb_w_berries_abund,I(herb_w_berries_abund^2),functional properties,microhabitat,herb
+herb_w_legume_abund,I(herb_w_legume_abund^2),functional properties,microhabitat,herb
+herb_evergreen_abund,I(herb_evergreen_abund^2),functional properties,microhabitat,herb
+herb_pr_padus_abund,I(herb_pr_padus_abund^2),functional properties,microhabitat,herb
+shrub_total_abund,I(shrub_total_abund^2),structural properties,macrohabitat,shrub
+shrub_average_abund,I(shrub_average_abund^2),structural properties,macrohabitat,shrub
+shrub_small_disp_abund,I(shrub_small_disp_abund^2),functional properties,macrohabitat,shrub
+shrub_medium_disp_abund,I(shrub_medium_disp_abund^2),functional properties,macrohabitat,shrub
+shrub_medium_large_disp_abund,I(shrub_medium_large_disp_abund^2),functional properties,macrohabitat,shrub
+shrub_large_disp_abund,I(shrub_large_disp_abund^2),functional properties,macrohabitat,shrub
+shrub_w_nuts_abund,I(shrub_w_nuts_abund^2),functional properties,macrohabitat,shrub
+shrub_w_nuts_e_abund,I(shrub_w_nuts_e_abund^2),functional properties,macrohabitat,shrub
+shrub_w_berries_abund,I(shrub_w_berries_abund^2),functional properties,macrohabitat,shrub
+shrub_evergreen_abund,I(shrub_evergreen_abund^2),functional properties,macrohabitat,shrub
+shrub_pr_padus_abund,I(shrub_pr_padus_abund^2),functional properties,macrohabitat,shrub
+tree_total_abund,I(tree_total_abund^2),structural properties,macrohabitat,tree
+tree_average_abund,I(tree_average_abund^2),structural properties,macrohabitat,tree
+tree_small_disp_abund,I(tree_small_disp_abund^2),functional properties,macrohabitat,tree
+tree_medium_disp_abund,I(tree_medium_disp_abund^2),functional properties,macrohabitat,tree
+tree_medium_large_disp_abund,I(tree_medium_large_disp_abund^2),functional properties,macrohabitat,tree
+tree_large_disp_abund,I(tree_large_disp_abund^2),functional properties,macrohabitat,tree
+tree_w_nuts_abund,I(tree_w_nuts_abund^2),functional properties,macrohabitat,tree
+tree_w_nuts_e_abund,I(tree_w_nuts_e_abund^2),functional properties,macrohabitat,tree
+tree_w_berries_abund,I(tree_w_berries_abund^2),functional properties,macrohabitat,tree
+tree_evergreen_abund,I(tree_evergreen_abund^2),functional properties,macrohabitat,tree
+tree_pr_padus_abund,I(tree_pr_padus_abund^2),functional properties,macrohabitat,tree
+all_total_abund,I(all_total_abund^2),structural properties,macrohabitat,all
+shrub_tree_total_abund,I(shrub_tree_total_abund^2),structural properties,macrohabitat,all
+ratio_herb_tree_abund,I(ratio_herb_tree_abund^2),structural properties,macrohabitat,all
+lg_ratio_herb_shrub_abund,I(lg_ratio_herb_shrub_abund^2),structural properties,macrohabitat,all
+lg_ratio_shrub_tree_abund,I(lg_ratio_shrub_tree_abund^2),structural properties,macrohabitat,all
+all_small_disp_abund,I(all_small_disp_abund^2),functional properties,macrohabitat,all
+all_medium_disp_abund,I(all_medium_disp_abund^2),functional properties,macrohabitat,all
+all_medium_large_disp_abund,I(all_medium_large_disp_abund^2),functional properties,macrohabitat,all
+all_large_disp_abund,I(all_large_disp_abund^2),functional properties,macrohabitat,all
+all_w_nuts_abund,I(all_w_nuts_abund^2),functional properties,macrohabitat,all
+all_w_nuts_e_abund,I(all_w_nuts_e_abund^2),functional properties,macrohabitat,all
+all_w_berries_abund,I(all_w_berries_abund^2),functional properties,macrohabitat,all
+all_evergreen_abund,I(all_evergreen_abund^2),functional properties,macrohabitat,all
+all_pr_padus_abund,I(all_pr_padus_abund^2),functional properties,macrohabitat,all
+lg_herb_weight_disp,I(lg_herb_weight_disp^2),functional properties,microhabitat,herb
+herb_small_disp_alpha,I(herb_small_disp_alpha^2),functional properties,microhabitat,herb
+herb_medium_disp_alpha,I(herb_medium_disp_alpha^2),functional properties,microhabitat,herb
+herb_medium_large_disp_alpha,I(herb_medium_large_disp_alpha^2),functional properties,microhabitat,herb
+herb_large_disp_alpha,I(herb_large_disp_alpha^2),functional properties,microhabitat,herb
+herb_sla,I(herb_sla^2),functional properties,microhabitat,herb
+lg_herb_chamaephyte,I(lg_herb_chamaephyte^2),functional properties,microhabitat,herb
+lg_herb_geophyte,I(lg_herb_geophyte^2),functional properties,microhabitat,herb
+herb_hemicryptophyte,I(herb_hemicryptophyte^2),functional properties,microhabitat,herb
+herb_phanerophyte,I(herb_phanerophyte^2),functional properties,microhabitat,herb
+lg_herb_therophyte,I(lg_herb_therophyte^2),functional properties,microhabitat,herb
+herb_perennial,I(herb_perennial^2),functional properties,microhabitat,herb
+bn_herb_fern,I(bn_herb_fern^2),functional properties,microhabitat,herb
+herb_forb,I(herb_forb^2),functional properties,microhabitat,herb
+lg_herb_grass,I(lg_herb_grass^2),functional properties,microhabitat,herb
+herb_asc_to_pros,I(herb_asc_to_pros^2),functional properties,microhabitat,herb
+herb_erect,I(herb_erect^2),functional properties,microhabitat,herb
+bn_herb_prostrate,I(bn_herb_prostrate^2),functional properties,microhabitat,herb
+herb_regular,I(herb_regular^2),functional properties,microhabitat,herb
+herb_rosette,I(herb_rosette^2),functional properties,microhabitat,herb
+herb_semi_rosette,I(herb_semi_rosette^2),functional properties,microhabitat,herb
+herb_wo_branching,I(herb_wo_branching^2),functional properties,microhabitat,herb
+herb_w_branching,I(herb_w_branching^2),functional properties,microhabitat,herb
+lg_shrub_weight_disp,I(lg_shrub_weight_disp^2),functional properties,macrohabitat,shrub
+shrub_small_disp_alpha,I(shrub_small_disp_alpha^2),functional properties,macrohabitat,shrub
+shrub_medium_disp_alpha,I(shrub_medium_disp_alpha^2),functional properties,macrohabitat,shrub
+shrub_medium_large_disp_alpha,I(shrub_medium_large_disp_alpha^2),functional properties,macrohabitat,shrub
+shrub_large_disp_alpha,I(shrub_large_disp_alpha^2),functional properties,macrohabitat,shrub
+shrub_sla,I(shrub_sla^2),functional properties,macrohabitat,shrub
+lg_tree_weight_disp,I(lg_tree_weight_disp^2),functional properties,macrohabitat,tree
+tree_small_disp_alpha,I(tree_small_disp_alpha^2),functional properties,macrohabitat,tree
+tree_medium_disp_alpha,I(tree_medium_disp_alpha^2),functional properties,macrohabitat,tree
+tree_medium_large_disp_alpha,I(tree_medium_large_disp_alpha^2),functional properties,macrohabitat,tree
+tree_large_disp_alpha,I(tree_large_disp_alpha^2),functional properties,macrohabitat,tree
+tree_sla,I(tree_sla^2),functional properties,macrohabitat,tree
+lg_all_weight_disp,I(lg_all_weight_disp^2),functional properties,macrohabitat,all
+all_small_disp_alpha,I(all_small_disp_alpha^2),functional properties,macrohabitat,all
+all_medium_disp_alpha,I(all_medium_disp_alpha^2),functional properties,macrohabitat,all
+all_medium_large_disp_alpha,I(all_medium_large_disp_alpha^2),functional properties,macrohabitat,all
+all_large_disp_alpha,I(all_large_disp_alpha^2),functional properties,macrohabitat,all
+all_sla,I(all_sla^2),functional properties,macrohabitat,all
+rich_tree_total_mean,I(rich_tree_total_mean^2),taxonomic properties,macrohabitat,tree
+rich_tree_small_mean,I(rich_tree_small_mean^2),taxonomic properties,macrohabitat,tree
+rich_tree_large_mean,I(rich_tree_large_mean^2),taxonomic properties,macrohabitat,tree
+rich_tree_short_mean,I(rich_tree_short_mean^2),taxonomic properties,macrohabitat,tree
+rich_tree_tall_mean,I(rich_tree_tall_mean^2),taxonomic properties,macrohabitat,tree
+rich_tree_sgof_mean,I(rich_tree_sgof_mean^2),taxonomic properties,macrohabitat,tree
+rich_tree_total_patch,I(rich_tree_total_patch^2),taxonomic properties,macrohabitat,tree
+rich_tree_small_patch,I(rich_tree_small_patch^2),taxonomic properties,macrohabitat,tree
+rich_tree_large_patch,I(rich_tree_large_patch^2),taxonomic properties,macrohabitat,tree
+rich_tree_short_patch,I(rich_tree_short_patch^2),taxonomic properties,macrohabitat,tree
+rich_tree_tall_patch,I(rich_tree_tall_patch^2),taxonomic properties,macrohabitat,tree
+rich_tree_sgof_patch,I(rich_tree_sgof_patch^2),taxonomic properties,macrohabitat,tree
+lg_alpha_spl_tall,I(lg_alpha_spl_tall^2),taxonomic properties,macrohabitat,sapling
+lg_alpha_spl_short,I(lg_alpha_spl_short^2),taxonomic properties,microhabitat,sapling
+lg_alpha_spl_total,I(lg_alpha_spl_total^2),taxonomic properties,macrohabitat,sapling
+gamma_herb,I(gamma_herb^2),taxonomic properties,microhabitat,herb
+gamma_shrub,I(gamma_shrub^2),taxonomic properties,macrohabitat,shrub
+gamma_tree,I(gamma_tree^2),taxonomic properties,macrohabitat,tree
+gamma_total,I(gamma_total^2),taxonomic properties,macrohabitat,all
+mean_alpha_herb,I(mean_alpha_herb^2),taxonomic properties,microhabitat,herb
+mean_alpha_shrub,I(mean_alpha_shrub^2),taxonomic properties,macrohabitat,shrub
+mean_alpha_tree,I(mean_alpha_tree^2),taxonomic properties,macrohabitat,tree
+mean_alpha_total,I(mean_alpha_total^2),taxonomic properties,macrohabitat,all
+beta_herb,I(beta_herb^2),taxonomic properties,microhabitat,herb
+beta_shrub,I(beta_shrub^2),taxonomic properties,macrohabitat,shrub
+beta_tree,I(beta_tree^2),taxonomic properties,macrohabitat,tree
+beta_total,I(beta_total^2),taxonomic properties,macrohabitat,all
+tree_mixed_dom,I(tree_mixed_dom^2),taxonomic properties,macrohabitat,tree
+tree_fagus_dom,I(tree_fagus_dom^2),taxonomic properties,macrohabitat,tree
+tree_fagus_part_patch,I(tree_fagus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_quercus_dom_patch,I(tree_quercus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_quercus_part_patch,I(tree_quercus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_populus_dom_patch,I(tree_populus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_populus_part_patch,I(tree_populus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_betula_dom_patch,I(tree_betula_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_betula_part_patch,I(tree_betula_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_alnus_dom_patch,I(tree_alnus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_alnus_part_patch,I(tree_alnus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_prunus_dom_patch,I(tree_prunus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_prunus_part_patch,I(tree_prunus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_fraxinus_dom_patch,I(tree_fraxinus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_fraxinus_part_patch,I(tree_fraxinus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_acer_dom_patch,I(tree_acer_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_acer_part_patch,I(tree_acer_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_tilia_dom_patch,I(tree_tilia_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_tilia_part_patch,I(tree_tilia_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_ulmus_dom_patch,I(tree_ulmus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_ulmus_part_patch,I(tree_ulmus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_carpinus_dom_patch,I(tree_carpinus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_carpinus_part_patch,I(tree_carpinus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_larix_dom_patch,I(tree_larix_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_larix_part_patch,I(tree_larix_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_picea_dom_patch,I(tree_picea_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_picea_part_patch,I(tree_picea_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_pinus_dom_patch,I(tree_pinus_dom_patch^2),taxonomic properties,macrohabitat,tree
+tree_pinus_part_patch,I(tree_pinus_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_ilex_part_patch,I(tree_ilex_part_patch^2),taxonomic properties,macrohabitat,tree
+tree_hedera_patch,I(tree_hedera_patch^2),taxonomic properties,macrohabitat,tree
+tree_evergreen_patch,I(tree_evergreen_patch^2),taxonomic properties,macrohabitat,tree
+ff_depth_lg_mean,I(ff_depth_lg_mean^2),soil,microhabitat,forest floor
+ff_bulkdensity_lg_mean,I(ff_bulkdensity_lg_mean^2),soil,microhabitat,forest floor
+ms_l1mm_mat_bn_mean,I(ms_l1mm_mat_bn_mean^2),soil,microhabitat,mineral soil
+ms_bulkdensity_mean,I(ms_bulkdensity_mean^2),soil,microhabitat,mineral soil
+ff_c.cont2_lg_mean,I(ff_c.cont2_lg_mean^2),soil,microhabitat,forest floor
+ms_c.cont2_lg_mean,I(ms_c.cont2_lg_mean^2),soil,microhabitat,mineral soil
+ff_n.cont2_lg_mean,I(ff_n.cont2_lg_mean^2),soil,microhabitat,forest floor
+ms_n.cont2_lg_mean,I(ms_n.cont2_lg_mean^2),soil,microhabitat,mineral soil
+ff_c.n_lg_mean,I(ff_c.n_lg_mean^2),soil,microhabitat,forest floor
+ms_c.n_lg_mean,I(ms_c.n_lg_mean^2),soil,microhabitat,mineral soil
+ff_ph_mean,I(ff_ph_mean^2),soil,microhabitat,forest floor
+ms_ph_mean,I(ms_ph_mean^2),soil,microhabitat,mineral soil
+ms_p.cont_tot_lg_mean,I(ms_p.cont_tot_lg_mean^2),soil,microhabitat,mineral soil
+ms_p.cont_inorg_lg_mean,I(ms_p.cont_inorg_lg_mean^2),soil,microhabitat,mineral soil
+ms_p.cont_org_lg_mean,I(ms_p.cont_org_lg_mean^2),soil,microhabitat,mineral soil
+ms_n.p_tot_lg_mean,I(ms_n.p_tot_lg_mean^2),soil,microhabitat,mineral soil
+ms_n.p_inorg_lg_mean,I(ms_n.p_inorg_lg_mean^2),soil,microhabitat,mineral soil
+ms_n.p_org_lg_mean,I(ms_n.p_org_lg_mean^2),soil,microhabitat,mineral soil
+trait11_mean,I(trait11_mean^2),soil,microhabitat,ground
+trait13_mean,I(trait13_mean^2),soil,microhabitat,ground
+trait14_mean,I(trait14_mean^2),soil,microhabitat,ground
+trait15_mean,I(trait15_mean^2),soil,microhabitat,ground
+trait47_mean,I(trait47_mean^2),soil,microhabitat,ground
+lg_cv_altitude,I(lg_cv_altitude^2),landscape,landscape,patch
+lg_surface_edge5_patch,I(lg_surface_edge5_patch^2),landscape,landscape,patch
+lg_surface_edge10_patch,I(lg_surface_edge10_patch^2),landscape,landscape,patch
+lg_surface_edge20_patch,I(lg_surface_edge20_patch^2),landscape,landscape,patch
+prop_edge5_patch,I(prop_edge5_patch^2),landscape,landscape,patch
+prop_edge10_patch,I(prop_edge10_patch^2),landscape,landscape,patch
+prop_edge20_patch,I(prop_edge20_patch^2),landscape,landscape,patch
+lg_NND,I(lg_NND^2),landscape,landscape,patch
+lg_lg_PROX.5000,I(lg_lg_PROX.5000^2),landscape,landscape,5000 m
+bn_prop_forest_50,I(bn_prop_forest_50^2),landscape,landscape,50 m
+lg_prop_forest_100,I(lg_prop_forest_100^2),landscape,landscape,100 m
+lg_prop_forest_250,I(lg_prop_forest_250^2),landscape,landscape,250 m
+lg_prop_forest_500,I(lg_prop_forest_500^2),landscape,landscape,500 m
+lg_prop_forest_1000,I(lg_prop_forest_1000^2),landscape,landscape,1000 m
+prop_forest_5000,I(prop_forest_5000^2),landscape,landscape,5000 m
+prop_cult_50,I(prop_cult_50^2),landscape,landscape,50 m
+prop_cult_100,I(prop_cult_100^2),landscape,landscape,100 m
+prop_cult_250,I(prop_cult_250^2),landscape,landscape,250 m
+prop_cult_500,I(prop_cult_500^2),landscape,landscape,500 m
+prop_cult_1000,I(prop_cult_1000^2),landscape,landscape,1000 m
+prop_cult_5000,I(prop_cult_5000^2),landscape,landscape,5000 m
+prop_past_50,I(prop_past_50^2),landscape,landscape,50 m
+prop_past_100,I(prop_past_100^2),landscape,landscape,100 m
+prop_past_250,I(prop_past_250^2),landscape,landscape,250 m
+prop_past_500,I(prop_past_500^2),landscape,landscape,500 m
+prop_past_1000,I(prop_past_1000^2),landscape,landscape,1000 m
+prop_past_5000,I(prop_past_5000^2),landscape,landscape,5000 m
+sqrt_prop_hedg_50,I(sqrt_prop_hedg_50^2),landscape,landscape,50 m
+sqrt_prop_hedg_100,I(sqrt_prop_hedg_100^2),landscape,landscape,100 m
+sqrt_prop_hedg_250,I(sqrt_prop_hedg_250^2),landscape,landscape,250 m
+sqrt_prop_hedg_500,I(sqrt_prop_hedg_500^2),landscape,landscape,500 m
+lg_edge_density_250,I(lg_edge_density_250^2),landscape,landscape,250 m
+asin_prop_edge5_250,I(asin_prop_edge5_250^2),landscape,landscape,250 m
+asin_prop_edge10_250,I(asin_prop_edge10_250^2),landscape,landscape,250 m
+asin_prop_edge20_250,I(asin_prop_edge20_250^2),landscape,landscape,250 m
+lg_edge_density_500,I(lg_edge_density_500^2),landscape,landscape,500 m
+asin_prop_edge5_500,I(asin_prop_edge5_500^2),landscape,landscape,500 m
+asin_prop_edge10_500,I(asin_prop_edge10_500^2),landscape,landscape,500 m
+asin_prop_edge20_500,I(asin_prop_edge20_500^2),landscape,landscape,500 m
+crown.cover,I(crown.cover^2),landscape,landscape,500 m
+lg_forest.cover,I(lg_forest.cover^2),landscape,landscape,500 m
+edge.density.forest,I(edge.density.forest^2),landscape,landscape,500 m
+n.patches,I(n.patches^2),landscape,landscape,500 m
+patch.density,I(patch.density^2),landscape,landscape,500 m
+sample_time,I(sample_time^2),method,method,method
+flag_condition,I(flag_condition^2),method,method,method
+temp_soil,I(temp_soil^2),microclimate,microhabitat,microclimate
+rH_5,I(rH_5^2),microclimate,microhabitat,microclimate
+rH_130,I(rH_130^2),microclimate,microhabitat,microclimate
+rH,I(rH^2),microclimate,microhabitat,microclimate
+temp_air,I(temp_air^2),microclimate,microhabitat,microclimate
+lg_satdef,I(lg_satdef^2),microclimate,microhabitat,microclimate
+gdd,I(gdd^2),macroclimate,macroclimate,year
+cdd,I(cdd^2),macroclimate,macroclimate,year
+precip_pre,I(precip_pre^2),macroclimate,macroclimate,pre
+precip_year,I(precip_year^2),macroclimate,macroclimate,year
+temp_mean_pre,I(temp_mean_pre^2),macroclimate,macroclimate,pre
+temp_mean_year,I(temp_mean_year^2),macroclimate,macroclimate,year
+temp_min_pre,I(temp_min_pre^2),macroclimate,macroclimate,pre
+temp_min_year,I(temp_min_year^2),macroclimate,macroclimate,year
+temp_max_pre,I(temp_max_pre^2),macroclimate,macroclimate,pre
+temp_max_year,I(temp_max_year^2),macroclimate,macroclimate,year
+n_snow_year,I(n_snow_year^2),macroclimate,macroclimate,year
+n_dew_pre,I(n_dew_pre^2),macroclimate,macroclimate,pre
+n_dew_year,I(n_dew_year^2),macroclimate,macroclimate,year
+n_cold_pre,I(n_cold_pre^2),macroclimate,macroclimate,pre
+n_cold_year,I(n_cold_year^2),macroclimate,macroclimate,year
+n_med_pre,I(n_med_pre^2),macroclimate,macroclimate,pre
+n_med_year,I(n_med_year^2),macroclimate,macroclimate,year
+n_warm_pre,I(n_warm_pre^2),macroclimate,macroclimate,pre
+n_warm_year,I(n_warm_year^2),macroclimate,macroclimate,year
+id_soil_wr,I(id_soil_wr^2),soil,soil,meta
+FA_microclimate_1,I(FA_microclimate_1^2),microclimate,microhabitat,microclimate
+FA_microclimate_2,I(FA_microclimate_2^2),microclimate,microhabitat,microclimate
+FA_macroclimate_1,I(FA_macroclimate_1^2),macroclimate,macroclimate,macroclimate
+FA_macroclimate_2,I(FA_macroclimate_2^2),macroclimate,macroclimate,macroclimate
+FA_macroclimate_3,I(FA_macroclimate_3^2),macroclimate,macroclimate,macroclimate
+FA_structure_1,I(FA_structure_1^2),structural properties,macrohabitat,structural properties
+FA_structure_2,I(FA_structure_2^2),structural properties,macrohabitat,structural properties
+FA_structure_3,I(FA_structure_3^2),structural properties,macrohabitat,structural properties
+FA_structure_4,I(FA_structure_4^2),structural properties,microhabitat,structural properties
+FA_structure_5,I(FA_structure_5^2),structural properties,macrohabitat,structural properties
+FA_structure_6,I(FA_structure_6^2),structural properties,macrohabitat,structural properties
+FA_structure_7,I(FA_structure_7^2),structural properties,macrohabitat,structural properties
+FA_structure_8,I(FA_structure_8^2),structural properties,macrohabitat,structural properties
+FA_abundances_1,I(FA_abundances_1^2),functional properties,macrohabitat,functional properties
+FA_abundances_2,I(FA_abundances_2^2),functional properties,macrohabitat,functional properties
+FA_abundances_3,I(FA_abundances_3^2),functional properties,macrohabitat,functional properties
+FA_abundances_4,I(FA_abundances_4^2),functional properties,macrohabitat,functional properties
+FA_abundances_5,I(FA_abundances_5^2),functional properties,macrohabitat,functional properties
+FA_abundances_6,I(FA_abundances_6^2),functional properties,macrohabitat,functional properties
+FA_abundances_7,I(FA_abundances_7^2),functional properties,macrohabitat,functional properties
+FA_abundances_8,I(FA_abundances_8^2),functional properties,macrohabitat,functional properties
+FA_traits_1,I(FA_traits_1^2),functional properties,microhabitat,functional properties
+FA_traits_2,I(FA_traits_2^2),functional properties,microhabitat,functional properties
+FA_traits_3,I(FA_traits_3^2),functional properties,microhabitat,functional properties
+FA_traits_4,I(FA_traits_4^2),functional properties,macrohabitat,functional properties
+FA_traits_5,I(FA_traits_5^2),functional properties,microhabitat,functional properties
+FA_traits_6,I(FA_traits_6^2),functional properties,macrohabitat,functional properties
+FA_traits_7,I(FA_traits_7^2),functional properties,microhabitat,functional properties
+FA_taxonomic_1,I(FA_taxonomic_1^2),taxonomic properties,microhabitat,taxonomic properties
+FA_taxonomic_2,I(FA_taxonomic_2^2),taxonomic properties,macrohabitat,taxonomic properties
+FA_taxonomic_3,I(FA_taxonomic_3^2),taxonomic properties,macrohabitat,taxonomic properties
+FA_taxonomic_4,I(FA_taxonomic_4^2),taxonomic properties,macrohabitat,taxonomic properties
+FA_soil_1,I(FA_soil_1^2),soil,microhabitat,soil
+FA_soil_2,I(FA_soil_2^2),soil,microhabitat,soil
+FA_soil_3,I(FA_soil_3^2),soil,macrohabitat,soil
+FA_soil_4,I(FA_soil_4^2),soil,microhabitat,soil
+FA_soil_5,I(FA_soil_5^2),soil,macrohabitat,soil
+FA_soil_6,I(FA_soil_6^2),soil,microhabitat,soil
+FA_landscape_1,I(FA_landscape_1^2),landscape,landscape,landscape
+FA_landscape_2,I(FA_landscape_2^2),landscape,landscape,landscape
+FA_landscape_3,I(FA_landscape_3^2),landscape,landscape,landscape
+FA_landscape_4,I(FA_landscape_4^2),landscape,landscape,landscape
+FA_landscape_5,I(FA_landscape_5^2),landscape,landscape,landscape

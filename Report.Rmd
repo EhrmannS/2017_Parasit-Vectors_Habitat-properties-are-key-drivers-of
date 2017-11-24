@@ -1,0 +1,725 @@
+---
+title: Habitat properties are key drivers of *Borrelia burgdorferi* s.l. prevalence
+  in *Ixodes ricinus* populations of deciduous forest fragments
+author: "Steffen Ehrmann"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: yes
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+subtitle: Documentation of Data analyses
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+```
+
+# Introduction
+This report documents modelling of how the prevalence of the tick-borne pathogen *Borrelia burgdorferi* s.l. in *Ixodes ricinus* ticks depends on environmental properties of small forest patches, the landscape and the macroclimate.
+
+These analyses were conducted in the smallFOREST-framework. Field data were collected by Steffen Ehrmann and field assistants (Katja Leischke, Peter Fräßdorf, Iris Gutierrez) and by the smallFOREST site-managers. Spatial data and macroclimate was gathered from the smallFOREST geospatial database and various internet-sources.
+
+I wrote this script by copying the final version of `infection_models.R` into this file and adapted the formating. I did not change any code-chunks deliberately but reordered their appearance for better readability. NB: Various of the variable names contain merely the most recent values, but these may have changed throughout the utilization of this code, particularly in [Model building].
+
+## License
+Copyright (C) 2016 Steffen Ehrmann
+
+This report is based on free software, which is published under the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This report is distributed in the hope that it will be useful , but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [GNU General Public License](http://www.gnu.org/licenses/) for more details.
+
+# Preparations
+Initially the relevant packages and extra code (such as helper functions) need to be loaded into the global environment of `R`.
+
+```{r eval=FALSE}
+setwd("/home/steffen/Documents/git/Articles/")
+
+source("./tick_infection_2017_smallFOREST/prepare_smallFOREST-data.R")
+
+files <- list.files(path = "./tick_infection_2017_smallFOREST/helper functions", 
+                    pattern = "[.]R$", 
+                    recursive = TRUE,
+                    full.names = TRUE)
+
+for(i in 1:length(files)) source(files[i])
+```
+
+For later plotting I define dummy variables refering to the desired colours.
+
+```{r eval=FALSE}
+colour1 <- "#b8d3e6"
+colour2 <- "#4683ae"
+```
+
+# Model building
+I set the contrasts for factors to the SAS default, so that the results are comparable with more common procedures.
+
+```{r eval=FALSE}
+options(contrasts=c("contr.SAS","contr.SAS")) # contr.sum = Statistica, contr.SAS = SAS
+```
+
+To build the model for nymphal infection prevalence, I first have to define a list of variables that should be tested.
+
+```{r eval=FALSE}
+variables <- colnames(all)[c(7, 10, 11, 20, 21, 30, 31, 40, 41, 48, 57:dim(all)[2])]
+variables <- variables[-c(which(variables=="ms_l1mm_mat_bn_mean"),
+                          which(variables=="id_soil_wr"),
+                          which(variables=="doy"),
+                          which(variables=="tree_hedera_patch"),
+                          which(variables=="tree_picea_dom_patch"),
+                          which(variables=="tree_ulmus_dom_patch"),
+                          which(variables=="tree_acer_part_patch"),
+                          which(variables=="tree_acer_dom_patch"),
+                          which(variables=="tree_prunus_dom_patch"))]
+```
+
+`variables` previously contains all preselected variables. However, if a variable creates problems in the model (due to missing values, etc), I exclude it. Eventually I run the function `find.effects()`. I set the subset criterion (`sbst`) to $p < 0.05$ and $R^2 < 0.5$ to select only variables where I can reject the null-hypothesis with a high certainty and which hardly correlate with the recent model. I additionally specify that I want to test variables up to a degree of 2, which means that I also test their values assuming they would have a second-order polynomial response.
+
+```{r eval=FALSE}
+df2 <- df; df <-
+  find.effects(n_ip_lmer,
+               variables,
+               degree = 2,
+               stat = "Chisq",
+               sbst = "p_val < 0.05 & r_sq < 0.5",
+               order = "p_val"); View(df)
+
+semi.residual(n_ip_lmer, c("FA_traits_5"), levels = "id_region")
+
+...
+
+Anova(n_ip_lmer, type = "III", test.statistic = "Chisq"); summary(n_ip_lmer)$varcor$id_region>0
+```
+
+I assign the previous instance of `df` to `df2` to allow comparison of the recent and the potential new model. With `semi.residuals()` I check the behaviour of the partial residuals. In `...` I add the variable to the recent model and subsequently check with `Anova()` the basic statistics and the behaviour of the other variables after updating the model. With `summary()` I also check if the random variable contains a value larger than 0, i.e. that it explains variation.
+
+I repeat the same procedure for the adult infection prevalence.
+
+```{r eval=FALSE}
+variables <- colnames(all)[c(7, 10, 11, 20, 21, 30, 31, 40, 41, 57:dim(all)[2])]
+variables <- variables[-c(which(variables=="ms_l1mm_mat_bn_mean"),
+                          which(variables=="id_soilprop_edge20_patch_wr"),
+                          which(variables=="doy"),
+                          which(variables=="ba_bitterlich_mean"),
+                          which(variables=="tree_hedera_patch"))] 
+
+df2 <- df
+df <- find.effects(a_ip_lmer, 
+                   variables,
+                   degree = 2, 
+                   stat = "Chisq",
+                   sbst = "p_val < 0.05 & r_sq < 0.5",
+                   order = "p_val"); View(df)
+
+semi.residual(a_ip_lmer, c("FA_abundances_5"), levels = "id_region", f = 2)
+
+Anova(a_ip_lmer, type = "III", test.statistic = "Chisq"); summary(a_ip_lmer)$varcor$id_region>0
+```
+
+The overall procedure is covered in Fig. 1.
+
+```{r echo=FALSE, fig.cap="Fig. 1: Data processing and model building procedure."}
+modelBuilding <- c("intermediate data/model-selection.svg")
+include_graphics(modelBuilding)
+```
+
+# The models
+Here I present the resulting model for nymphal infection prevalence...
+
+```{r eval=FALSE}
+n_ip_lmer <- lmer(lt_n_ip_gm ~ prop_edge5_patch +
+                    lg_n_mean +
+                    edge.density.forest +
+                    FA_abundances_8 + I(FA_abundances_8^2) +
+                    tree_prunus_part_patch +
+                    lg_alpha_spl_total +
+                    herb_large_disp_abund +
+                    herb_regular +
+                    prop_cult_100 + I(prop_cult_100^2) +
+                    diam_diff_mean +
+                    shrub_large_disp_alpha +
+                    lg_lg_PROX.5000 +
+                    tree_mixed_dom + I(tree_mixed_dom^2) +
+                    tree_quercus_part_patch +
+                    all_pr_padus_abund +
+                    n_cold_year +
+                    ba_laying_large_bn_mean +
+                    ff_n.cont2_lg_mean +
+                    FA_landscape_4 +
+                    herb_evergreen_abund +
+                    FA_taxonomic_2 +
+                    lg_herb_chamaephyte +
+                    rich_tree_large_mean +
+                    (1 | id_region),
+                  subset = all$n_pa!=0, data = all, REML = T)
+
+n_ip_decomp <- var.decomp(n_ip_lmer, ddf="Satterthwaite", verbose = 1, penalised = T, SS_adjust = T)
+```
+
+... and for adult infection prevalence.
+
+```{r eval=FALSE}
+a_ip_lmer <- lmer(lt_a_ip_gm ~ lg_a_mean + 
+                    herb_average_abund + 
+                    prop_cult_1000 + I(prop_cult_1000^2) + 
+                    shrub_medium_disp_abund + 
+                    trait11_mean + I(trait11_mean^2) + 
+                    tree_sla + 
+                    FA_soil_3 + 
+                    FA_landscape_5 + I(FA_landscape_5^2) + 
+                    ms_ph_mean + I(ms_ph_mean^2) + 
+                    ff_bulkdensity_lg_mean + 
+                    diss_tree2_spl + 
+                    lg_alpha_spl_tall + 
+                    all_large_disp_abund + 
+                    tree_small_disp_alpha + I(tree_small_disp_alpha^2) + 
+                    dens_large_lg_mean + 
+                    ba_laying_total_lg_mean + 
+                    FA_abundances_5 + I(FA_abundances_5^2) + 
+                    FA_structure_5 + 
+                    (1 | id_region), 
+                  subset = a_pa!=0, data = all, REML = T)
+
+a_ip_decomp <- var.decomp(a_ip_lmer, ddf="Satterthwaite", verbose = 1, penalised = T, SS_adjust = T)
+```
+
+In both instances also a variance decomposition is carried out, which would calculate the relative importance of each variable (see details in the paper).
+
+# Reporting
+## Average prevalence
+For nymphal infection prevalence I carry out a TukeyHSD-test to determine the differences in prevalence between regions. I use the package `multcompView` to determine a letter-code indicating significant differences, if two regions don't share the same letter.
+```{r eval=FALSE}
+nip_aov <- aov(n_ip_gm ~ id_region, data = all)
+tHSD <- TukeyHSD(nip_aov, ordered = FALSE, conf.level = 0.95)
+nip_levels <- tHSD[["id_region"]][,4]
+nip_levels <- multcompLetters(nip_levels)
+nip_letters <- nip_levels$Letters
+nip_letters <- nip_letters[order(names(nip_letters))]
+
+nip_tukey <- ddply(all, .(id_region), summarise,
+                   id_stage = "nymphs",
+                   mean = mean(n_ip_gm),
+                   sd = sd(n_ip_gm),
+                   number = length(n_ip_gm),
+                   lower = mean - qt(0.975, number)*(sd/sqrt(number)),
+                   upper = mean + qt(0.975, number)*(sd/sqrt(number)),
+                   pos_y = upper + 0.03) %>%
+  cbind(letters = nip_letters)
+```
+
+I repeat this for adult infection prevalence.
+
+```{r eval=FALSE}
+aip_aov <- aov(a_ip_gm ~ id_region, data = all)
+tHSD <- TukeyHSD(aip_aov, ordered = FALSE, conf.level = 0.95)
+aip_levels <- tHSD[["id_region"]][,4]
+aip_levels <- multcompLetters(aip_levels)
+aip_letters <- aip_levels$Letters
+aip_letters <- aip_letters[order(names(aip_letters))]
+
+aip_tukey <- ddply(all, .(id_region), summarise,
+                   id_stage = "adults",
+                   mean = mean(a_ip_gm),
+                   sd = sd(a_ip_gm),
+                   number = length(a_ip_gm),
+                   lower = mean - qt(0.975, number)*(sd/sqrt(number)),
+                   upper = mean + qt(0.975, number)*(sd/sqrt(number)),
+                   pos_y = upper + 0.03) %>%
+  cbind(letters = aip_letters)
+```
+
+
+## Deriving relative importance
+I join the variables statistical output with different look-up tables to prepare them for grouping and summarising.
+
+```{r eval=FALSE}
+n_meta <- n_ip_decomp$`Fixed Part`
+n_meta <- cbind(n_meta, stage = "nymph")
+n_meta$var2 <- as.character(rownames(n_meta))
+n_meta <- join(n_meta, grouping[, c(1:2)], by = "var2")
+n_meta$var1 <- ifelse(is.na(n_meta$var1), n_meta$var2, as.character(n_meta$var1))
+n_meta <- join(n_meta, grouping[, c(1, 3)], by = "var1")
+n_meta <- join(n_meta, grouping[, c(1, 4)], by = "var1")
+n_meta <- join(n_meta, lut_group, by = "group")
+n_meta <- join(n_meta, quantiles[, c(1, 3:9)], by = "var1")
+colnames(n_meta)[which(colnames(n_meta)=="var1")] <- "var"
+colnames(n_meta)[which(colnames(n_meta)=="var2")] <- "var_detail"
+```
+
+I take this intermediary step of building the data.frame `nip_res_pro`, which comprises all data to print the response profiles. I do this here already, because I want to join these data with the statistical output of the previous step, to have on overall data.frame capturing all relevant data.
+
+```{r eval=FALSE}
+nip_res_pro <- visreg.to.ggplot(n_ip_lmer, type = "contrast", levels = "id_region")
+nip_names <- names[names(names)%in%levels(nip_res_pro$variable)]
+pos_x_n <- ddply(subset(nip_res_pro, type=="fit"), .(variable), summarise, 
+                 pos_x = max(x) - (max(x)-min(x))*0.5)
+```
+
+Then I group and summarise the statistical output. This results in summarisation of the values of relative importance for a variable which would have been significant for a second-order polynomial.
+
+```{r eval=FALSE}
+n_var <- as.data.frame(
+  n_meta %>% 
+    group_by(var) %>% 
+    summarise(percent = round(sum(relImp_part*100, na.rm = T), 2)))
+
+n_var$label <- sprintf("eta**2==%.1f", n_var$percent)
+colnames(n_var)[which(colnames(n_var)=="var")] <- "variable"
+n_var <- join(n_var, pos_x_n, by = "variable")
+n_var$variable <- factor(n_var$variable, levels(nip_res_pro$variable))
+n_var <- n_var[order(n_var$variable),]
+```
+
+In the last step I summarise the relative importance values according to the previously added driver groups (`n_drivergroup`), sub-groups (`n_group`) and scale within habitat (`n_habitat`).
+
+```{r eval=FALSE}
+n_drivergroup <- n_meta %>%
+  group_by(group) %>%
+  summarise(percent = round(sum(relImp_part*100, na.rm = T), 2),
+            mean = round(mean(relImp_part*100, na.rm = T), 2),
+            sd = round(sd(relImp_part*100, na.rm = T), 2))
+
+n_group <- n_meta %>%
+  group_by(metagroup) %>%
+  summarise(percent = round(sum(relImp_part*100, na.rm = T), 2),
+            mean = round(mean(relImp_part*100, na.rm = T), 2),
+            sd = round(sd(relImp_part*100, na.rm = T), 2))
+
+n_habitat <- n_meta %>%
+  filter(type == "microhabitat" | type == "macrohabitat") %>%
+  group_by(type) %>%
+  summarise(percent = round(sum(relImp_part*100, na.rm = T), 2),
+            mean = round(mean(relImp_part*100, na.rm = T), 2),
+            sd = round(sd(relImp_part*100, na.rm = T), 2))
+```
+
+I repeat the same procedure for the adult infection prevalence.
+
+```{r eval=FALSE}
+a_meta <- a_ip_decomp$`Fixed Part`
+a_meta <- cbind(a_meta, stage = "adult")
+a_meta$var2 <- as.character(rownames(a_meta))
+a_meta <- join(a_meta, grouping[, c(1:2)], by = "var2")
+a_meta$var1 <- ifelse(is.na(a_meta$var1), a_meta$var2, as.character(a_meta$var1))
+a_meta <- join(a_meta, grouping[, c(1, 3)], by = "var1")
+a_meta <- join(a_meta, grouping[, c(1, 4)], by = "var1")
+a_meta <- join(a_meta, lut_group, by = "group")
+a_meta <- join(a_meta, quantiles[, c(1, 3:9)], by = "var1")
+colnames(a_meta)[which(colnames(a_meta)=="var1")] <- "var"
+colnames(a_meta)[which(colnames(a_meta)=="var2")] <- "var_detail"
+
+aip_res_pro <- visreg.to.ggplot(a_ip_lmer, type = "contrast", levels = "id_region")
+aip_names <- names[names(names)%in%levels(aip_res_pro$variable)]
+pos_x_a <- ddply(subset(aip_res_pro, type=="fit"), .(variable), summarise, 
+                 pos_x = max(x) - (max(x)-min(x))*0.5)
+
+a_var <- as.data.frame(
+  a_meta %>% 
+    group_by(var) %>% 
+    summarise(percent = round(sum(relImp_part*100, na.rm=T), 2)))
+
+a_var$label <- sprintf("eta**2==%.1f", a_var$percent)
+colnames(a_var)[which(colnames(a_var)=="var")] <- "variable"
+a_var <- join(a_var, pos_x_a, by = "variable")
+a_var$variable <- factor(a_var$variable, levels(aip_res_pro$variable))
+a_var <- a_var[order(a_var$variable),]
+
+a_drivergroup <- a_meta %>%
+  group_by(group) %>%
+  summarise(percent = round(sum(relImp_part*100, na.rm = T), 2),
+            mean = round(mean(relImp_part*100, na.rm = T), 2),
+            sd = round(sd(relImp_part*100, na.rm = T), 2))
+
+a_group <- a_meta %>%
+  group_by(metagroup) %>%
+  summarise(percent = round(sum(relImp_part*100, na.rm = T), 2),
+            mean = round(mean(relImp_part*100, na.rm = T), 2),
+            sd = round(sd(relImp_part*100, na.rm = T), 2))
+
+a_habitat <- a_meta %>%
+  filter(type == "microhabitat" | type == "macrohabitat") %>%
+  group_by(type) %>%
+  summarise(percent = round(sum(relImp_part*100, na.rm = T), 2),
+            mean = round(mean(relImp_part*100, na.rm = T), 2),
+            sd = round(sd(relImp_part*100, na.rm = T), 2))
+```
+
+## Creating graphs
+To create graphs, I typically first have to manage the data to be in the right form for `ggplot()`, including splitting and reshaping data and sorting of factors for plotting in the right order. This applies to most of the below sub-chapters.
+
+### Fig. 2 - Region average prevalence
+I combine the results of the tukey test for nymphs and adults. I manage the factors and plot the averages as points and the confidence intervall as whsikers (errorbars). I add the letters which indicate significant differences, if they are not the same for two errorbars.
+
+```{r eval=FALSE}
+tukey <- rbind(nip_tukey, aip_tukey)
+
+tukey$id_region <- as.factor(tukey$id_region)
+tukey$id_region <- factor(tukey$id_region, levels(tukey$id_region)[c(4, 3, 1, 6, 5, 8, 7, 2)])
+tukey$id_stage <- as.factor(tukey$id_stage)
+tukey$id_stage <- factor(tukey$id_stage, levels(tukey$id_stage)[c(2, 1)])
+tukey <- tukey[order(tukey$id_region),]
+rownames(tukey) <- NULL
+
+ggplot(tukey, 
+       aes(x = id_region, colour = id_stage)) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), 
+                position = position_dodge(width = 0.9), 
+                width = 0.5 ,
+                size=1.5) +
+  geom_point(aes(y = mean), 
+             position = position_dodge(width = 0.9), 
+             size = 7,
+             stroke = 1) +
+  geom_text(aes(y = pos_y, label = tukey$letter), 
+            position = position_dodge(width = 0.9), 
+            size = 5) +
+  theme_bw() +
+  scale_colour_manual(name = "Tick stage", 
+                      values = c(colour1, colour2), 
+                      labels = c("Nymphs", "Adults")) +
+  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", "western\nGermany",
+                            "eastern\nGermany", "southern\nSweden", "central\nSweden", "Estonia")) +
+  ylab(expression(paste(italic("Borrelia burgdorferi"), " s.l. prevalence (geometric mean)"))) +
+  xlab("\nRegion") +
+  theme(axis.text = element_text(size = 16),
+        axis.title = element_text(size = 18),
+        panel.border = element_rect(colour = "black", size = 0.5),
+        legend.key = element_rect(colour = "white"))
+```
+
+```{r echo=FALSE, fig.cap="Fig. 2: Raw output of fraction of patches with *I. ricinus* and with *Borrelia burgdorferi* s.l. therein."}
+patch_stats <- c("intermediate data/mean_prevalence.svg")
+include_graphics(patch_stats)
+```
+
+### Fig. A9 - infection prevalence (geometric mean)
+I extract the respective columns from the overall data.frame, from which I also took the variables for modeling in the first place (`all`). Then I reshape the data, sort the factors and plot a boxplot with jittered raw data.
+
+```{r eval=FALSE}
+tick_subset <- all[, c(1, 4, 8, 9, 11, 12, 14, 15, 17, 38, 39, 41, 42, 44, 45, 47)]
+ticks_plotting <- 
+  reshape(tick_subset,
+          idvar = "id_patch",
+          varying = list(names(tick_subset)[c(3, 10)],
+                         names(tick_subset)[c(4, 11)],
+                         names(tick_subset)[c(7, 14)],
+                         names(tick_subset)[c(8, 15)],
+                         names(tick_subset)[c(6, 13)],
+                         names(tick_subset)[c(5, 12)],
+                         names(tick_subset)[c(9, 16)]),
+          v.names = c("sum_ticks", "mean_ticks", "inf_p", 
+                      "inf_ab", "n_lab", "ticks_pa", "inf_pa"),
+          times = c("nymphs", "adults"),
+          timevar = "id_stage",
+          direction = "long")
+
+ticks_plotting$id_region <- as.factor(ticks_plotting$id_region)
+ticks_plotting$id_region <- factor(ticks_plotting$id_region, 
+                                   levels(ticks_plotting$id_region)[c(4, 3, 1, 6, 5, 8, 7, 2)])
+ticks_plotting$id_stage <- as.factor(ticks_plotting$id_stage)
+ticks_plotting$id_stage <- factor(ticks_plotting$id_stage, 
+                                  levels(ticks_plotting$id_stage)[c(2, 1)])
+ticks_plotting <- ticks_plotting[order(ticks_plotting$id_patch, ticks_plotting$id_stage),]
+rownames(ticks_plotting) <- NULL
+
+ggplot(subset(ticks_plotting, ticks_pa!=0), 
+       aes(x = id_region, y = inf_p, fill = id_stage)) +
+  geom_boxplot(outlier.colour = "white") +
+  geom_jitter(aes(size = n_lab, colour = id_stage), 
+              alpha = 0.8, 
+              shape = 20, 
+              position = position_jitterdodge()) +
+  theme_bw() +
+  scale_colour_manual(name = "Tick stage", 
+                      values = c(colour1, colour2), 
+                      labels = c("Nymphs", "Adults")) +
+  scale_fill_manual(guide = F, values = c("white", "white")) +
+  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", "western\nGermany", 
+                            "eastern\nGermany", "southern\nSweden", "central\nSweden", "Estonia")) +
+  scale_size_continuous(name = "Ticks tested") +
+  guides(colour = guide_legend(override.aes = list(size = 5)),
+         size = guide_legend(ncol = 2, override.aes = list(shape = 21))) +
+  ylab(expression(paste(italic("Borrelia burgdorferi"), " s.l. prevalence (geometric mean)"))) +
+  xlab("\nRegion") +
+  theme(axis.text = element_text(size = 16),
+        axis.title = element_text(size = 18),
+        panel.border = element_rect(colour = "black", size = 0.5),
+        legend.key = element_rect(colour = "white"))
+```
+
+```{r echo=FALSE, fig.cap="Fig. 3: Raw output of infection prevalence in ticks of the different regions."}
+infection <- c("intermediate data/infection_prevalence.svg")
+include_graphics(infection)
+```
+
+### Fig. 3 - fraction of patches
+I summarise the data put together for Fig. A9 per region and plot a bar for each the fraction of ticks and *Borrelia* in patches.
+
+```{r eval=FALSE}
+ticks_plotting_region <- ddply(ticks_plotting, .(id_region, id_stage), summarise,
+                               ticks_col = sum(sum_ticks, na.rm = T),
+                               ticks_mean = mean(mean_ticks, na.rm = T),
+                               inf_ab_mean = mean(inf_ab, na.rm = T),
+                               inf_ab_sd = sd(inf_ab, na.rm = T),
+                               inf_ab_ub = inf_ab_mean + qnorm(.95)*inf_ab_sd/sqrt(length(inf_ab)),
+                               inf_ab_lb = inf_ab_mean - qnorm(.95)*inf_ab_sd/sqrt(length(inf_ab)),
+                               ticks_lab_sum = sum(n_lab, na.rm = T),
+                               ticks_lab_mean = mean(n_lab, na.rm = T),
+                               inf_pr = mean(inf_p, na.rm = T),
+                               frac_ticks = sum(ticks_pa)/length(ticks_pa)*100,
+                               frac_g_inf = sum(inf_pa)/length(inf_pa)*100)
+
+ggplot(ticks_plotting_region, 
+       aes(x = id_region)) +
+  geom_bar(stat = "identity",
+           aes(y = frac_g_inf, colour = id_stage, fill = id_stage), 
+           position = "dodge") +
+  geom_bar(stat = "identity", 
+           aes(y = frac_ticks, colour = id_stage),
+           fill = "transparent",
+           position = "dodge") +
+  theme_bw() +
+  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", "western\nGermany", 
+                            "eastern\nGermany", "southern\nSweden", "central\nSweden", "Estonia")) +
+  scale_colour_manual(guide = F,
+                      values = c(colour1, colour2)) +
+  scale_fill_manual(name = "Tick stage", 
+                    values = c(colour1, colour2), 
+                    labels = c("Nymphs", "Adults")) +
+  scale_colour_manual(name = "Tick stage",
+                      values = c(colour1, colour2), 
+                      labels = c("Nymphs", "Adults")) +
+  scale_alpha_manual(name = "patches\nwith",
+                     values = c(0, 1), 
+                     labels = c("Ticks", "Borrelia\nin Ticks")) +
+  guides(alpha = guide_legend(override.aes = list(colour = "gray30"))) +
+  xlab("\nRegion") + 
+  ylab("Proportion of patches [%]\n") +
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=18),
+        panel.border = element_rect(colour = "black", size = 0.5))
+```
+
+```{r echo=FALSE, fig.cap="Fig. 4: Raw output of fraction of patches with *I. ricinus* and with *Borrelia burgdorferi* s.l. therein."}
+patch_stats <- c("intermediate data/patch_stats.svg")
+include_graphics(patch_stats)
+```
+
+### Fig. 4 - relative importance
+I combine the summary data-frames for nymphs and adults to plot a comparative bar-plot of the sumarised variables' relative importance.
+
+```{r eval=FALSE}
+tick_stats <- rbind(n_meta, a_meta)
+
+# relative importance of only habitat variables
+tick_stats_habitat <- subset(tick_stats, subset = tick_stats$metagroup=="habitat")
+tick_stats_habitat <- droplevels(tick_stats_habitat)
+```
+
+**Driver groups**  
+Here I reshape and reorder the data and plot bars for the main driver groups.
+
+```{r eval=FALSE}
+tick_metagroup <- ddply(tick_stats, .(stage, metagroup), summarise,
+                        relImp_part=sum(relImp_part*100))
+
+tick_metagroup <- reshape(tick_metagroup, 
+                          v.names = "relImp_part", 
+                          timevar = "metagroup", 
+                          idvar = c("stage"), 
+                          direction = "wide")
+tick_metagroup[is.na(tick_metagroup)] <- 0
+tick_metagroup <- reshape(tick_metagroup, 
+                          direction = "long")
+
+tick_metagroup$metagroup <- factor(tick_metagroup$metagroup, 
+                                   levels(tick_metagroup$metagroup)[c(3, 2, 1, 4)])
+tick_metagroup <- tick_metagroup[order(tick_metagroup$stage, tick_metagroup$metagroup),]
+row.names(tick_metagroup) <- NULL
+
+g1 <- ggplot(tick_metagroup, 
+             aes(metagroup, relImp_part, fill = stage)) +
+  geom_bar(stat = "identity",
+           position = position_dodge(),
+           size = .3) +
+  theme_bw() +
+  theme(legend.position="none") +
+  xlab("\nDriver Group") + ylab("Relative importance [%]\n") +
+  expand_limits(y=c(0,50)) +
+  scale_fill_manual(name = "Prevalence", 
+                    labels = c("Nymphs", "Adults"),
+                    values = c(colour1, colour2)) +
+  scale_x_discrete(labels = c("Macroclimate\n", "Landscape", "Habitat", "Ontogeny")) +
+  theme(axis.text = element_text(size = 16),
+        axis.title = element_text(size = 18))
+```
+
+**Scale within habitat**  
+I replicate the above for 'scale within habitat' ...
+```{r eval=FALSE}
+tick_habitat_scale <- ddply(tick_stats_habitat, .(stage, type), summarise,
+                     relImp_part = sum(relImp_part*100))
+
+tick_habitat_scale$type <- factor(tick_habitat_scale$type, 
+                                  levels(tick_habitat_scale$type)[c(1, 2)])
+tick_habitat_scale <- tick_habitat_scale[order(tick_habitat_scale$stage, tick_habitat_scale$type),]
+
+g2 <- ggplot(tick_habitat_scale, 
+             aes(type, relImp_part, fill = stage)) +
+  geom_bar(stat = "identity",
+           position = "dodge",
+           size = .3) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  xlab("\nscale within Habitat") +
+  expand_limits(y=c(0,50)) +
+  scale_fill_manual(name = "Tick Stage", 
+                    values = c(colour1, colour2), 
+                    labels = c("Nymphs", "Adults")) +
+  scale_x_discrete(labels = c("Macrohabitat\n", "Microhabitat\n")) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text = element_text(size = 16),
+        axis.title = element_text(size = 18))
+```
+
+**Sub-group within habitat**  
+... and 'subgroups within habitat'.
+```{r eval=FALSE}
+tick_habitat_sub <- ddply(tick_stats_habitat, .(stage, group), summarise,
+                     relImp_part = sum(relImp_part*100))
+
+tick_habitat_sub <- reshape(tick_habitat_sub, 
+                            v.names = "relImp_part", 
+                            timevar = "group", 
+                            idvar = c("stage"), 
+                            direction = "wide")
+tick_habitat_sub[is.na(tick_habitat_sub)] <- 0.01
+tick_habitat_sub <- reshape(tick_habitat_sub, 
+                            direction = "long")
+
+tick_habitat_sub$group <- factor(tick_habitat_sub$group, 
+                                 levels(tick_habitat_sub$group)[c(1, 3, 4, 2)])
+tick_habitat_sub <- tick_habitat_sub[order(tick_habitat_sub$stage, tick_habitat_sub$group),]
+row.names(tick_habitat_sub) <- NULL
+
+g3 <- ggplot(tick_habitat_sub, aes(group, relImp_part, fill = stage)) +
+  geom_bar(stat = "identity", 
+           position = position_dodge(), 
+           size = .3) +
+  theme_bw() +
+  xlab("\nsub group within Habitat") +
+  expand_limits(y=c(0,50)) +
+  scale_fill_manual(name = "Tick Stage",
+                    labels = c("Nymphs", "Adults"),
+                    values = c(colour1, colour2)) +
+  scale_x_discrete(labels = c("Functional\nproperties", "Structural\nproperties", "Diversity", 
+                              "Soil")) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text = element_text(size = 16),
+        axis.title = element_text(size = 18),
+        legend.background = element_rect(colour = "lightgray"),
+        legend.position = c(.75,.85),
+        legend.key = element_rect(colour = "white"))
+```
+
+Eventually I plot the combined graph.
+
+```{r eval=FALSE}
+multiplot(g1, g2, g3, cols = 3, layout = matrix(c(1, 1, 1, 1, 2, 2, 3, 3, 3, 3), nrow = 1))
+```
+
+```{r echo=FALSE, fig.cap="Fig. 5: Raw output for relative importance of the significant variables."}
+relImp <- c("intermediate data/relative_importance.svg")
+include_graphics(relImp)
+```
+
+### Fig. A8.1 - response profiles NIP
+Graphs for the response profiles are saved with the `svg()`function to guarantee proper alignment of the facetted sub-graphs so that both graphs (for nymphs and adults) look "the same".
+
+```{r eval=FALSE}
+resp_nip <- ggplot(subset(nip_res_pro, type == "fit"), 
+                   aes(x, y)) +
+  geom_point(data = subset(nip_res_pro, type == "res"),
+             aes(x, y), 
+             shape = 20,
+             size = .3) +
+  geom_ribbon(aes(ymin = Lwr, ymax = Upr),
+              bg = colour1) +
+  geom_line(size = 1) +
+  theme_bw() +
+  theme(aspect.ratio=1.2,
+        strip.text = element_text(size = 11),
+        strip.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.border = element_rect(colour = "black")) +
+  ylab("Logit( infection prevalence of nymphs )\n") + xlab("Response variable") +
+  ylim(-4, 4) +
+  facet_wrap(~variable, 
+             scales = "free_x", 
+             strip.position = "bottom", 
+             drop = F, 
+             labeller = as_labeller(nip_names), 
+             ncol = 6)
+
+resp_nip <- resp_nip + geom_text(data=n_var, 
+                                 aes(x = pos_x, y = 3.3, label = label), 
+                                 parse = T)
+svg(filename = "resp_nip.svg", height = 20, width = 11); resp_nip; dev.off()
+```
+
+
+```{r echo=FALSE, fig.cap="Fig. 6: Raw output of the response profile for nymphal infection prevalence."}
+nymphs <- c("intermediate data/resp_nip.svg")
+include_graphics(nymphs)
+```
+
+### Fig. A8.2 - response profiles AIP
+
+```{r eval=FALSE}
+resp_aip <- ggplot(subset(aip_res_pro, type == "fit"), 
+                   aes(x, y)) +
+  geom_point(data = subset(aip_res_pro, type == "res"), 
+             aes(x, y),
+             shape = 20, 
+             size = .3) +
+  geom_ribbon(aes(ymin = Lwr, ymax = Upr),
+              bg = colour2) +
+  geom_line(size = 1) +
+  theme_bw() +
+  theme(aspect.ratio=1.2,
+        strip.text = element_text(size = 11),
+        strip.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.border = element_rect(colour = "black")) +
+  ylab("Logit( infection prevalence of adults )\n") + xlab("Response variable") +
+  facet_wrap(~variable, 
+             scales = "free_x", 
+             strip.position = "bottom", 
+             drop = F, 
+             labeller = as_labeller(aip_names), 
+             ncol = 6)
+
+resp_aip <- resp_aip + geom_text(data=a_var, 
+                                 aes(x = pos_x, y = 3, label = label), 
+                                 parse = T)
+svg(filename = "resp_aip.svg", height = 20, width = 11); resp_aip; dev.off()
+```
+
+```{r echo=FALSE, fig.cap="Fig. 7: Raw output of the response profile for adult infection prevalence."}
+adults <- c("intermediate data/resp_aip.svg")
+include_graphics(adults)
+```
+
+# Concluding remarks
+The raw output of graphs would typically be transfered to inkscape, which is a compact program for modifying `*.svg`-files. Modifications, such as adding the text as actual text (recognizeable by other programs) instead of a mere object (which may not be recognizeable as text wihout specialised tools) or adapting the position of the legend, can easily be carried out like that. However, one has to be careful not to change the elements of a figure so that data (bars) or their values (scales) don't anymore show the information they originally carried.
