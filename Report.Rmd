@@ -24,7 +24,12 @@ This report documents modelling of how the prevalence of the tick-borne pathogen
 
 These analyses were conducted in the smallFOREST-framework. Field data were collected by Steffen Ehrmann and field assistants (Katja Leischke, Peter Fräßdorf, Iris Gutierrez) and by the smallFOREST site-managers. Spatial data and macroclimate was gathered from the smallFOREST geospatial database and various internet-sources.
 
-I wrote this script by copying the final version of `infection_models.R` into this file and adapted the formating. I did not change any code-chunks deliberately but reordered their appearance for better readability. NB: Various of the variable names contain merely the most recent values, but these may have changed throughout the utilization of this code, particularly in [Model building].
+I wrote this script by copying the final version of `infection_models.R` into this file and adapted the formating. I did not change any code-chunks deliberately but reordered their appearance for better readability. 
+
+## Notes
+  - Various of the variable names are replaced in each iteration of this code with the current variable to be treated and I label them `SOME_VARIABLE` here.
+  
+  - I did not write a package (yet) for the functions employed here, but you can open each functions file for a documentation which I pasted into the function body (see directory `helper functions` in the github respository).
 
 ## License
 Copyright (C) 2016 Steffen Ehrmann
@@ -34,12 +39,10 @@ This report is based on free software, which is published under the GNU General 
 This report is distributed in the hope that it will be useful , but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [GNU General Public License](http://www.gnu.org/licenses/) for more details.
 
 # Preparations
-Initially the relevant packages and extra code (such as helper functions) need to be loaded into the global environment of `R`.
+Initially the relevant packages and extra code (such as helper functions) need to be loaded into the global environment of `R`. Before you can run the first line, you have to get the dataset from the smallFOREST project website. If this is not possible, please write a mail to me: steffen.science@funroll-loops.de
 
 ```{r eval=FALSE}
-setwd("/home/steffen/Documents/git/Articles/")
-
-source("./tick_infection_2017_smallFOREST/prepare_smallFOREST-data.R")
+source("./prepare_smallFOREST-data.R")
 
 files <- list.files(path = "./tick_infection_2017_smallFOREST/helper functions", 
                     pattern = "[.]R$", 
@@ -48,6 +51,8 @@ files <- list.files(path = "./tick_infection_2017_smallFOREST/helper functions",
 
 for(i in 1:length(files)) source(files[i])
 ```
+
+After reading in and preparing the data (I removed outlayers or a complete variable, checked distributions, calculated correlation factors), an object called `all` is made available, in which all the potential drivers are comprised.
 
 For later plotting I define dummy variables refering to the desired colours.
 
@@ -60,7 +65,7 @@ colour2 <- "#4683ae"
 I set the contrasts for factors to the SAS default, so that the results are comparable with more common procedures.
 
 ```{r eval=FALSE}
-options(contrasts=c("contr.SAS","contr.SAS")) # contr.sum = Statistica, contr.SAS = SAS
+options(contrasts=c("contr.SAS","contr.SAS"))
 ```
 
 To build the model for nymphal infection prevalence, I first have to define a list of variables that should be tested.
@@ -81,22 +86,25 @@ variables <- variables[-c(which(variables=="ms_l1mm_mat_bn_mean"),
 `variables` previously contains all preselected variables. However, if a variable creates problems in the model (due to missing values, etc), I exclude it. Eventually I run the function `find.effects()`. I set the subset criterion (`sbst`) to $p < 0.05$ and $R^2 < 0.5$ to select only variables where I can reject the null-hypothesis with a high certainty and which hardly correlate with the recent model. I additionally specify that I want to test variables up to a degree of 2, which means that I also test their values assuming they would have a second-order polynomial response.
 
 ```{r eval=FALSE}
-df2 <- df; df <-
-  find.effects(n_ip_lmer,
-               variables,
-               degree = 2,
-               stat = "Chisq",
-               sbst = "p_val < 0.05 & r_sq < 0.5",
-               order = "p_val"); View(df)
+df2 <- df
+df <- find.effects(n_ip_lmer,
+                   variables,
+                   degree = 2,
+                   stat = "Chisq",
+                   sbst = "p_val < 0.05 & r_sq < 0.5",
+                   order = "p_val"); View(df)
 
-semi.residual(n_ip_lmer, c("FA_traits_5"), levels = "id_region")
+semi.residual(n_ip_lmer, c("SOME_VARIABLE"), levels = "id_region")
 
-...
+myModel <- lmer(RESPONSE ~ OLD_MODEL + 
+                  SOME_VARIABLE +
+                  (1 | id_region),
+                subset = all$n_pa!=0, data = all, REML = T))
 
 Anova(n_ip_lmer, type = "III", test.statistic = "Chisq"); summary(n_ip_lmer)$varcor$id_region>0
 ```
 
-I assign the previous instance of `df` to `df2` to allow comparison of the recent and the potential new model. With `semi.residuals()` I check the behaviour of the partial residuals. In `...` I add the variable to the recent model and subsequently check with `Anova()` the basic statistics and the behaviour of the other variables after updating the model. With `summary()` I also check if the random variable contains a value larger than 0, i.e. that it explains variation.
+I assign the previous instance of `df` to `df2` to allow comparison of the recent and the potential new model. With `semi.residuals()` I check the behaviour of the partial residuals, update the model and subsequently check with `Anova()` the basic statistics and the behaviour of the other variables after updating the model. If a previously included variable should become insignificant due to the addition of a new variable, the old variable is removed from the model. With `summary()` I also check if the random variable contains a value larger than 0, i.e. that it explains variation.
 
 I repeat the same procedure for the adult infection prevalence.
 
@@ -116,14 +124,14 @@ df <- find.effects(a_ip_lmer,
                    sbst = "p_val < 0.05 & r_sq < 0.5",
                    order = "p_val"); View(df)
 
-semi.residual(a_ip_lmer, c("FA_abundances_5"), levels = "id_region", f = 2)
+semi.residual(a_ip_lmer, c("SOME_VARIABLE"), levels = "id_region", f = 2)
 
 Anova(a_ip_lmer, type = "III", test.statistic = "Chisq"); summary(a_ip_lmer)$varcor$id_region>0
 ```
 
 The overall procedure is covered in Fig. 1.
 
-```{r echo=FALSE, fig.cap="Fig. 1: Data processing and model building procedure."}
+```{r echo=FALSE, fig.cap="Data processing and model building procedure."}
 modelBuilding <- c("intermediate data/model-selection.svg")
 include_graphics(modelBuilding)
 ```
@@ -188,7 +196,7 @@ a_ip_lmer <- lmer(lt_a_ip_gm ~ lg_a_mean +
 a_ip_decomp <- var.decomp(a_ip_lmer, ddf="Satterthwaite", verbose = 1, penalised = T, SS_adjust = T)
 ```
 
-In both instances also a variance decomposition is carried out, which would calculate the relative importance of each variable (see details in the paper).
+The function `var.decomp()` calculates, amongst other things, the relative importance of the variables included in the model.
 
 # Reporting
 ## Average prevalence
@@ -352,7 +360,7 @@ a_habitat <- a_meta %>%
 ## Creating graphs
 To create graphs, I typically first have to manage the data to be in the right form for `ggplot()`, including splitting and reshaping data and sorting of factors for plotting in the right order. This applies to most of the below sub-chapters.
 
-### Fig. 2 - Region average prevalence
+### Fig. 3 - Region average prevalence
 I combine the results of the tukey test for nymphs and adults. I manage the factors and plot the averages as points and the confidence intervall as whsikers (errorbars). I add the letters which indicate significant differences, if they are not the same for two errorbars.
 
 ```{r eval=FALSE}
@@ -365,8 +373,7 @@ tukey$id_stage <- factor(tukey$id_stage, levels(tukey$id_stage)[c(2, 1)])
 tukey <- tukey[order(tukey$id_region),]
 rownames(tukey) <- NULL
 
-ggplot(tukey, 
-       aes(x = id_region, colour = id_stage)) +
+ggplot(tukey, aes(x = id_region, colour = id_stage)) +
   geom_errorbar(aes(ymin = lower, ymax = upper), 
                 position = position_dodge(width = 0.9), 
                 width = 0.5 ,
@@ -382,9 +389,11 @@ ggplot(tukey,
   scale_colour_manual(name = "Tick stage", 
                       values = c(colour1, colour2), 
                       labels = c("Nymphs", "Adults")) +
-  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", "western\nGermany",
-                            "eastern\nGermany", "southern\nSweden", "central\nSweden", "Estonia")) +
-  ylab(expression(paste(italic("Borrelia burgdorferi"), " s.l. prevalence (geometric mean)"))) +
+  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium",
+                            "western\nGermany", "eastern\nGermany", "southern\nSweden",
+                            "central\nSweden", "Estonia")) +
+  ylab(expression(paste(italic("Borrelia burgdorferi"), 
+                        " s.l. prevalence (geometric mean)"))) +
   xlab("\nRegion") +
   theme(axis.text = element_text(size = 16),
         axis.title = element_text(size = 18),
@@ -392,12 +401,14 @@ ggplot(tukey,
         legend.key = element_rect(colour = "white"))
 ```
 
-```{r echo=FALSE, fig.cap="Fig. 2: Raw output of fraction of patches with *I. ricinus* and with *Borrelia burgdorferi* s.l. therein."}
+```{r echo=FALSE, fig.cap="Raw output of fraction of patches with *I. ricinus* and with *Borrelia burgdorferi* s.l. therein."}
 patch_stats <- c("intermediate data/mean_prevalence.svg")
 include_graphics(patch_stats)
 ```
 
 ### Fig. A9 - infection prevalence (geometric mean)
+NB: This graph is not anymore in the paper, but I decided to leave it here for interested readers. 
+
 I extract the respective columns from the overall data.frame, from which I also took the variables for modeling in the first place (`all`). Then I reshape the data, sort the factors and plot a boxplot with jittered raw data.
 
 ```{r eval=FALSE}
@@ -439,12 +450,14 @@ ggplot(subset(ticks_plotting, ticks_pa!=0),
                       values = c(colour1, colour2), 
                       labels = c("Nymphs", "Adults")) +
   scale_fill_manual(guide = F, values = c("white", "white")) +
-  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", "western\nGermany", 
-                            "eastern\nGermany", "southern\nSweden", "central\nSweden", "Estonia")) +
+  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", 
+                            "western\nGermany", "eastern\nGermany", "southern\nSweden",
+                            "central\nSweden", "Estonia")) +
   scale_size_continuous(name = "Ticks tested") +
   guides(colour = guide_legend(override.aes = list(size = 5)),
          size = guide_legend(ncol = 2, override.aes = list(shape = 21))) +
-  ylab(expression(paste(italic("Borrelia burgdorferi"), " s.l. prevalence (geometric mean)"))) +
+  ylab(expression(paste(italic("Borrelia burgdorferi"), 
+                        " s.l. prevalence (geometric mean)"))) +
   xlab("\nRegion") +
   theme(axis.text = element_text(size = 16),
         axis.title = element_text(size = 18),
@@ -452,12 +465,12 @@ ggplot(subset(ticks_plotting, ticks_pa!=0),
         legend.key = element_rect(colour = "white"))
 ```
 
-```{r echo=FALSE, fig.cap="Fig. 3: Raw output of infection prevalence in ticks of the different regions."}
+```{r echo=FALSE, fig.cap="Raw output of infection prevalence in ticks of the different regions."}
 infection <- c("intermediate data/infection_prevalence.svg")
 include_graphics(infection)
 ```
 
-### Fig. 3 - fraction of patches
+### Fig. 4 - fraction of patches
 I summarise the data put together for Fig. A9 per region and plot a bar for each the fraction of ticks and *Borrelia* in patches.
 
 ```{r eval=FALSE}
@@ -484,8 +497,9 @@ ggplot(ticks_plotting_region,
            fill = "transparent",
            position = "dodge") +
   theme_bw() +
-  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", "western\nGermany", 
-                            "eastern\nGermany", "southern\nSweden", "central\nSweden", "Estonia")) +
+  scale_x_discrete(labels=c("southern\nFrance", "northern\nFrance", "Belgium", 
+                            "western\nGermany", "eastern\nGermany", "southern\nSweden",
+                            "central\nSweden", "Estonia")) +
   scale_colour_manual(guide = F,
                       values = c(colour1, colour2)) +
   scale_fill_manual(name = "Tick stage", 
@@ -505,12 +519,12 @@ ggplot(ticks_plotting_region,
         panel.border = element_rect(colour = "black", size = 0.5))
 ```
 
-```{r echo=FALSE, fig.cap="Fig. 4: Raw output of fraction of patches with *I. ricinus* and with *Borrelia burgdorferi* s.l. therein."}
+```{r echo=FALSE, fig.cap="Raw output of fraction of patches with *I. ricinus* and with *Borrelia burgdorferi* s.l. therein."}
 patch_stats <- c("intermediate data/patch_stats.svg")
 include_graphics(patch_stats)
 ```
 
-### Fig. 4 - relative importance
+### Fig. 5 - relative importance
 I combine the summary data-frames for nymphs and adults to plot a comparative bar-plot of the sumarised variables' relative importance.
 
 ```{r eval=FALSE}
@@ -619,8 +633,8 @@ g3 <- ggplot(tick_habitat_sub, aes(group, relImp_part, fill = stage)) +
   scale_fill_manual(name = "Tick Stage",
                     labels = c("Nymphs", "Adults"),
                     values = c(colour1, colour2)) +
-  scale_x_discrete(labels = c("Functional\nproperties", "Structural\nproperties", "Diversity", 
-                              "Soil")) +
+  scale_x_discrete(labels = c("Functional\nproperties", "Structural\nproperties", 
+                              "Diversity", "Soil")) +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         axis.title.y = element_blank(),
@@ -637,7 +651,7 @@ Eventually I plot the combined graph.
 multiplot(g1, g2, g3, cols = 3, layout = matrix(c(1, 1, 1, 1, 2, 2, 3, 3, 3, 3), nrow = 1))
 ```
 
-```{r echo=FALSE, fig.cap="Fig. 5: Raw output for relative importance of the significant variables."}
+```{r echo=FALSE, fig.cap="Raw output for relative importance of the significant variables."}
 relImp <- c("intermediate data/relative_importance.svg")
 include_graphics(relImp)
 ```
@@ -678,7 +692,7 @@ svg(filename = "resp_nip.svg", height = 20, width = 11); resp_nip; dev.off()
 ```
 
 
-```{r echo=FALSE, fig.cap="Fig. 6: Raw output of the response profile for nymphal infection prevalence."}
+```{r echo=FALSE, fig.cap="Raw output of the response profile for nymphal infection prevalence."}
 nymphs <- c("intermediate data/resp_nip.svg")
 include_graphics(nymphs)
 ```
@@ -716,7 +730,7 @@ resp_aip <- resp_aip + geom_text(data=a_var,
 svg(filename = "resp_aip.svg", height = 20, width = 11); resp_aip; dev.off()
 ```
 
-```{r echo=FALSE, fig.cap="Fig. 7: Raw output of the response profile for adult infection prevalence."}
+```{r echo=FALSE, fig.cap="Raw output of the response profile for adult infection prevalence."}
 adults <- c("intermediate data/resp_aip.svg")
 include_graphics(adults)
 ```
