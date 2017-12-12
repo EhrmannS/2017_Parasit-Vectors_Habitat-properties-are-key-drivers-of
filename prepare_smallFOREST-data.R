@@ -2,9 +2,9 @@
 # Introduction
 #
 # This script is used to prepare data gathered in the smallFOREST framework for
-# analyses of the 16 focal patches per landscape window. Framework: smallFOREST
+# analyses of the 16 focal patches per landscape window.
 # Based on field-data collected in the framework by Steffen Ehrmann and
-# field-assistants (Katja Leischke, Peter # Fräßdorf, Regina Hesseman, Iris
+# field-assistants (Katja Leischke, Peter Fräßdorf, Regina Hesseman, Iris
 # Gutierrez), the smallFOREST site-managers and on spatial data of the
 # smallFOREST geospatial database.
 #
@@ -42,15 +42,13 @@ require("psych"); require("GPArotation"); require("ellipse")
 ################################################################################
 # read in data
 
-setwd("/home/steffen/Documents/science/papers/submitted/Habitat properties are key drivers of Borrelia burgdorferi s.l. prevalence in Ixodes ricinus populations of deciduous forest fragments_2017_SE/")
-
 # has been created by hand after all transformations were carried out.
-colnames_transformations <- read.csv("./analyses/intermediate data/colnames_transformations.csv")
+colnames_transformations <- read.csv("./intermediate data/colnames_transformations.csv")
 
 # this following file already contains some transformation, which were applied
 # already during the calculation of stand structural and soil properties.
-main_patches <- read.csv("/home/steffen/Projects/smallFOREST/output/FINAL_trans_wp2.csv")
-grouping <- read.csv("./analyses/intermediate data/grouping.csv")
+main_patches <- read.csv("./data/final_dataset.csv") # This file is called "FINAL_trans_wp2.csv" on my harddisc, please inform me that you need specifically that file, if you request it from me personally.
+grouping <- read.csv("./intermediate data/grouping.csv")
 
 
 # select only rows which have complete cases
