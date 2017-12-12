@@ -12,3 +12,5 @@ Cite the [article]()
     	year = {2017},
     	pages = {}
     	}
+
+Read the [Report](https://github.com/EhrmannS/2017_Parasit-Vectors_Habitat-properties-are-key-drivers-of/blob/master/Report.Rmd) on model-building.
